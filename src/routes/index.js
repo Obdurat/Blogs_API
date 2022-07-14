@@ -1,15 +1,17 @@
 const express = require('express');
+const { loginReq, registerReq } = require('../Middleware/ReqValidations');
+const Controllers = require('../Controllers');
 
 const Router = express.Router();
 
 Router.route('/user')
-  .post((req, res) => res.json({ message: 'Post' }))
+  .post(registerReq, Controllers.createUser)
   .get((req, res) => res.json({ message: 'Get All' }));
 
 Router.route('/user/:id').get((req, res) =>
   res.json({ message: 'Get', id: req.params.id }));
 
-Router.route('/login').post((req, res) => res.json({ message: 'Login' }));
+Router.route('/login').post(loginReq, Controllers.login);
 
 Router.route('/categories')
   .get((req, res) => res.json({ message: 'Get Category' }))

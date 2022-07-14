@@ -4,14 +4,10 @@ const Attributes = {
   postId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
-    unique: true,
   },
   categoryId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    autoIncrement: true,
-    unique: true,
   },
 };
 
@@ -22,8 +18,8 @@ module.exports = (sequelize) => {
   });
 
   PostCategory.associate = (models) => {
-    models.Category.belongsToMany(models.BlogPost);
-    models.BlogPost.belongsToMany(models.Category);
+    models.Category.belongsToMany(models.BlogPost, { through: models.PostCategory });
+    models.BlogPost.belongsToMany(models.Category, { through: models.PostCategory });
   };
 
   return PostCategory;
