@@ -14,12 +14,12 @@ const Attributes = {
 module.exports = (sequelize) => {
   const PostCategory = sequelize.define("PostCategory", Attributes, {
     timestamps: false,
-    tableName: "PostCategory",
+    tableName: "PostCategories",
   });
 
   PostCategory.associate = (models) => {
-    models.Category.belongsToMany(models.BlogPost, { through: models.PostCategory });
-    models.BlogPost.belongsToMany(models.Category, { through: models.PostCategory });
+    models.Category.belongsToMany(models.BlogPost, { through: models.PostCategory, foreignKey: "categoryId" });
+    models.BlogPost.belongsToMany(models.Category, { through: models.PostCategory, foreignKey: "postId" });
   };
 
   return PostCategory;

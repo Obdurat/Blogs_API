@@ -44,6 +44,7 @@ describe(requirements[8].description, () => {
       .expect('status', 200)
       .then((response) => {
         const { body } = response;
+        console.log(body);
         const result = JSON.parse(body);
         expect(result[0].id).toBe(1);
         expect(result[0].name).toBe('Inovação');

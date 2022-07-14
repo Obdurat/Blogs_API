@@ -1,24 +1,29 @@
 const express = require('express');
-const { loginReq, registerReq } = require('../Middleware/ReqValidations');
+const { 
+  loginReq, 
+  registerReq, 
+  postCategoryReq, 
+  blogPostReq } = require('../Middleware/ReqValidations');
+
+const jwtAuth = require('../Middleware/jwtAuth');
 const Controllers = require('../Controllers');
 
 const Router = express.Router();
 
 Router.route('/user')
   .post(registerReq, Controllers.createUser)
-  .get((req, res) => res.json({ message: 'Get All' }));
+  .get(jwtAuth, Controllers.getUsers);
 
-Router.route('/user/:id').get((req, res) =>
-  res.json({ message: 'Get', id: req.params.id }));
+Router.route('/user/:id').get(jwtAuth, Controllers.getUser);
 
 Router.route('/login').post(loginReq, Controllers.login);
 
 Router.route('/categories')
-  .get((req, res) => res.json({ message: 'Get Category' }))
-  .post((req, res) => res.json({ message: 'Post Category' }));
+  .get(jwtAuth, Controllers.getCategories)
+  .post(postCategoryReq, jwtAuth, Controllers.createCategory);
 
 Router.route('/post')
-  .post((req, res) => res.json({ message: 'Post post' }))
+  .post(jwtAuth, blogPostReq, Controllers.createBlogPost)
   .get((req, res) => res.json({ message: 'Get Post' }));
 
 Router.route('/post/:id')
